@@ -1,3 +1,6 @@
+## 修复内容
+增加对rename插件的支持，解决缓存失败的问题
+
 ## picgo-plugin-alist
 
 plugin for picgo

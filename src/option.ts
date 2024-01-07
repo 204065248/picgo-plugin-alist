@@ -1,15 +1,15 @@
-import type { PostOptions, RefreshOptions, UserConfig } from './types'
+import type { PostOptions, RefreshOptions, UserConfig } from "./types";
 
 export const getRefreshOptions = (options: RefreshOptions) => {
-  const { url, token, uploadPath, version } = options
+  const { url, token, uploadPath, version } = options;
   const v3options = {
-    method: 'POST',
+    method: "POST",
     url: `${url}/api/fs/list`,
     rejectUnauthorized: false,
     // contentType: 'application/json',
     headers: {
-      'User-Agent': 'PicGo',
-      'Authorization': token,
+      "User-Agent": "PicGo",
+      Authorization: token,
     },
     body: {
       page: 1,
@@ -19,37 +19,57 @@ export const getRefreshOptions = (options: RefreshOptions) => {
       refresh: true,
     },
     json: true,
-  }
+  };
   const v2options = {
-    method: 'POST',
+    method: "POST",
     url: `${url}/api/admin/refresh`,
     rejectUnauthorized: false,
-    contentType: 'application/json',
+    contentType: "application/json",
     headers: {
-      'User-Agent': 'PicGo',
-      'Authorization': token,
+      "User-Agent": "PicGo",
+      Authorization: token,
     },
     body: {
       path: `/${uploadPath}`,
     },
     json: true,
-  }
+  };
   switch (version) {
-    case 2:return v2options
-    case 3:return v3options
+    case 2:
+      return v2options;
+    case 3:
+      return v3options;
   }
-}
+};
+
+export const removeServerImg = (options) => {
+  return {
+    method: "POST",
+    url: `${options.url}/api/fs/remove`,
+    rejectUnauthorized: false,
+    // contentType: 'application/json',
+    headers: {
+      "User-Agent": "PicGo",
+      Authorization: options.token,
+    },
+    body: {
+      names: [...options.filenames],
+      dir: options.dir,
+    },
+    json: true,
+  };
+};
 
 export const getPostOptions = (options: PostOptions) => {
-  const { url, files, token, uploadPath, version, fileName } = options
+  const { url, files, token, uploadPath, version, fileName } = options;
   const v2options = {
-    method: 'POST',
+    method: "POST",
     url: `${url}/api/public/upload`,
     rejectUnauthorized: false,
     headers: {
       // "Content-Type": 'multipart/form-data',
-      'User-Agent': 'PicGo',
-      'Authorization': token,
+      "User-Agent": "PicGo",
+      Authorization: token,
     },
     formData: {
       path: uploadPath,
@@ -61,16 +81,16 @@ export const getPostOptions = (options: PostOptions) => {
       },
     },
     json: true,
-  }
+  };
   const v3options = {
-    method: 'PUT',
+    method: "PUT",
     url: `${url}/api/fs/form`,
     rejectUnauthorized: false,
     headers: {
       // "Content-Type": 'multipart/form-data',
-      'User-Agent': 'PicGo',
-      'Authorization': token,
-      'file-path': encodeURIComponent(`/${uploadPath}/${fileName}`),
+      "User-Agent": "PicGo",
+      Authorization: token,
+      "file-path": encodeURIComponent(`/${uploadPath}/${fileName}`),
     },
     formData: {
       file: {
@@ -81,9 +101,11 @@ export const getPostOptions = (options: PostOptions) => {
       },
     },
     json: true,
-  }
+  };
   switch (version) {
-    case 2:return v2options
-    case 3:return v3options
+    case 2:
+      return v2options;
+    case 3:
+      return v3options;
   }
-}
+};

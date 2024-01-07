@@ -28,9 +28,8 @@ export const handle = async (ctx: PicGo): Promise<PicGo> => {
       const tempFilePath = nodePath.join(temporaryDirectory, fileName)
       ctx.log.info(`[信息]\{version:${version},uploadPath:${uploadPath},fileName:${fileName}\}`)
       try {
-        if (!fs.existsSync(nodePath.dirname(tempFilePath))) {
+        if (!fs.existsSync(nodePath.dirname(tempFilePath)))
           fs.mkdirSync(nodePath.dirname(tempFilePath), { recursive: true })
-        }
         fs.writeFileSync(tempFilePath, image)
       }
       catch (err) {
